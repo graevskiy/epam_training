@@ -1,0 +1,13 @@
+Timer unit: 1e-07 s
+
+Total time: 0.0034077 s
+File: <ipython-input-16-9bb8126a32c0>
+Function: compare_list_updates at line 7
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     7                                           def compare_list_updates(l):
+     8         1       2742.0   2742.0      8.0      a = list(map(str.upper, l))
+     9         1       6962.0   6962.0     20.4      b = [x.upper() for x in l]
+    10         1       9888.0   9888.0     29.0      c = list(x.upper() for x in l)
+    11         1      14485.0  14485.0     42.5      d = upper_list(l)

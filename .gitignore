@@ -9,7 +9,9 @@
 /class_11_testing/.pytest_cache
 /class_11_testing/__pycache__
 /class_11_testing/.coverage
-/class_12_Cyton_profiling
+/class_12_Cython_profiling/.ipynb_checkpoints
+/class_12_Cython_profiling/__pycache__
+/class_13_parallel_programming
 /epam_python_env
 /OOP Class
 /Untitled.ipynb
