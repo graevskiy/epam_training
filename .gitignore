@@ -11,9 +11,10 @@
 /class_11_testing/.coverage
 /class_12_Cython_profiling/.ipynb_checkpoints
 /class_12_Cython_profiling/__pycache__
-/class_13_parallel_programming
-/class_14_CMD_logging/__pycache__
-/class_14_CMD_logging/homework/invalid
+/class_13_parallel_programming/venv
+/class_13_parallel_programming/homework/__pycache__
+/class_13_parallel_programming/homework/homework_v1_single_thread.py
+/class_14_CMD_logging/
 /class_15_sockets
 /epam_python_env
 /OOP Class
