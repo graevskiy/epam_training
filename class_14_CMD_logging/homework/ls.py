@@ -116,13 +116,14 @@ args.per_line = args.per_line or args.long_format
 
 # define which formatters were provided from args
 # vars(args) is a dictionary. We access to bool values in 'if'
-formatters = [formatter for formatter in ALL_FORMATTERS if vars(args)[formatter]]
+args_dict = vars(args)
+formatters = [formatter for formatter in ALL_FORMATTERS if args_dict[formatter]]
 
 # as -l flag is a complex one we have to process it separately
 # injecting needed columns by replacing `long_format` with them
 if args.long_format:
     ind = formatters.index("long_format")
-    formatters = formatters[:ind] + list(LONG_FORMAT) + formatters[ind + 1 :]
+    formatters[ind:ind+1] = list(LONG_FORMAT)
 
 # this one is the most complicated part
 # for each item (aka file or dir) - get stats. for those which can be used straight
