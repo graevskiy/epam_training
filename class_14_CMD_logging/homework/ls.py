@@ -167,7 +167,7 @@ cols, rows = terminal_size.columns, terminal_size.lines
 
 # calculate number of columns we can render
 num_cols = cols // (longest + 2)
-per_col = len(formatted_rows) // num_cols
+per_col = max(1, len(formatted_rows) // num_cols)
 
 # split so that sorting is vertical (by default -C option)
 splitted = []
