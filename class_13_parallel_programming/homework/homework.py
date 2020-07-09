@@ -4,18 +4,19 @@ import logging
 import os
 import sys
 import time
+from collections import namedtuple
 from contextlib import contextmanager
 from functools import wraps
 from multiprocessing import Lock
 from multiprocessing.pool import ThreadPool
 from pathlib import Path, PurePath
-from typing import Any, Iterable, List, Tuple
+from typing import Any, List, Tuple
 
 import requests
 from PIL import Image
 
-# not sure how to set it up correctly. Used by `handle_image_processing` function
-ProcessParams = Tuple[str, Tuple[int, int], int, Lock, Iterable[Tuple[int, int]]]
+
+ProcessParams = namedtuple('ProcessParams', ['url', 'size', 'n', 'lock', 'glob_count'])
 
 # set up logger
 LOG_FORMAT = "%(levelname)s: '%(message)s'"
@@ -29,8 +30,8 @@ def move_to_dir(path: Path) -> None:
 
     tmp_path = os.getcwd()
     os.chdir(path)
+    logging.debug(f"Moving into {path}")
     try:
-        logging.debug(f"Moving into {path}")
         yield
     finally:
         logging.debug(f"Moving back into {tmp_path}")
@@ -49,6 +50,10 @@ def time_it(func):
         return value
 
     return wrapper
+
+
+class InvalidUserInputException(Exception):
+    pass
 
 
 # functions for getting images
@@ -144,14 +149,14 @@ def convert_thumb_size_param(size: str) -> Tuple[int, int]:
     try:
         width, height = map(int, size.lower().split("x"))
     except ValueError:
-        logging.error("Invalid `size` parameter provided")
-        sys.exit(1)
+        msg = "Invalid `size` parameter provided"
+        logging.exception(msg)
+        raise InvalidUserInputException(msg)
     else:
         if min(width, height) < 1:
-            logging.error(
-                "Both width and height in `size` parameter should be positive"
-            )
-            sys.exit(1)
+            msg = "Both width and height in `size` parameter should be positive"
+            logging.exception(msg)
+            raise InvalidUserInputException(msg)
     return width, height
 
 
@@ -163,27 +168,26 @@ def validate_args(args: argparse.Namespace) -> None:
     :return: None
     """
 
+    msg = ""
     # validate file name
     if not Path(args.urls_file).is_file():
-        logging.error("Invalid input file with urls")
-        sys.exit(1)
-
-    # validate size parameter
-    if not args.size:
-        logging.error("Invalid 'size' parameter provided")
-        sys.exit(1)
+        msg = "Invalid input file with urls"
 
     # validate path
     path = Path(args.dir)
     if path.exists() and not path.is_dir():
-        path_ins = path if path.is_absolute() else PurePath.joinpath(path.cwd(), path)
-        logging.error(f"Output directory '{path_ins}' can't be created")
-        sys.exit(1)
+        path_ins = path if path.is_absolute() else PurePath.joinpath(Path.cwd(), path)
+        msg = f"Output directory '{path_ins}' can't be created"
 
     # validate threads #
     if args.threads < 1:
-        logging.error("Threads number should be positive.")
-        sys.exit(1)
+        msg = "Threads number should be a positive integer"
+
+    if msg:
+        logging.exception(msg)
+        raise InvalidUserInputException(msg)
+
+    return None
 
 
 def setup_arg_parser():
@@ -230,19 +234,17 @@ def handle_image_processing(params: ProcessParams) -> None:
         - glob_count: pair of counters - urls successfully processed, number of bytes downloaded
     :return: None
     """
-    url, size, n, lock, glob_count = params
 
-    img_from_url = get_content(url)
+    img_from_url = get_content(params.url)
 
     if img_from_url:
-        resize_save_img(img_from_url, size, n)
+        resize_save_img(img_from_url, params.size, params.n)
         success_count, bytes_count = 1, len(img_from_url)
 
-        lock.acquire()
-        # need to update values in place
-        glob_count[0] += success_count
-        glob_count[1] += bytes_count
-        lock.release()
+        with params.lock:
+            # need to update values in place
+            params.glob_count[0] += success_count
+            params.glob_count[1] += bytes_count
 
 
 @time_it
@@ -272,7 +274,8 @@ def main():
 
         # create iterable of parameters for handler and submit all them to the pool
         process_params = (
-            (url, args.size, n, lock, counter) for n, url in enumerate(urls, start=1)
+            ProcessParams(url, args.size, n, lock, counter)
+            for n, url in enumerate(urls, start=1)
         )
         pool.map(handle_image_processing, process_params)
 
