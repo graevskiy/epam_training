@@ -31,11 +31,9 @@ def move_to_dir(path: Path) -> None:
     tmp_path = os.getcwd()
     os.chdir(path)
     logging.debug(f"Moving into {path}")
-    try:
-        yield
-    finally:
-        logging.debug(f"Moving back into {tmp_path}")
-        os.chdir(tmp_path)
+    yield
+    logging.debug(f"Moving back into {tmp_path}")
+    os.chdir(tmp_path)
 
 
 def time_it(func):
