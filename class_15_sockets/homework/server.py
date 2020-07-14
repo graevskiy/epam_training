@@ -1,12 +1,11 @@
-import socket
-import selectors
 import pathlib
-
-from multiprocessing.pool import ThreadPool
+import selectors
+import socket
 from collections import defaultdict
 from multiprocessing import Lock
+from multiprocessing.pool import ThreadPool
 
-HOST = 'localhost'
+HOST = "localhost"
 PORT = 9999
 
 selector = selectors.DefaultSelector()
@@ -18,12 +17,12 @@ lock = Lock()
 
 def append_data(data):
     data = data.decode()
-    pathlib.Path('outputs').mkdir(parents=True, exist_ok=True)
+    pathlib.Path("outputs").mkdir(parents=True, exist_ok=True)
     with lock:
-        print('writing to a file')
-        with open(f'outputs/output.txt', 'a', encoding='utf-8') as f:
+        print("writing to a file")
+        with open(f"outputs/output.txt", "a", encoding="utf-8") as f:
             f.write(data)
-            f.write('\n')
+            f.write("\n")
 
 
 def server(host, port):
@@ -37,7 +36,7 @@ def server(host, port):
 
 def accept_conn(serv_sock):
     client, addr = serv_sock.accept()
-    print('Connection from', addr)
+    print("Connection from", addr)
     client.setblocking(False)
     selector.register(fileobj=client, events=selectors.EVENT_READ, data=recv_message)
 
@@ -50,13 +49,13 @@ def recv_message(client_sock):
             bufs[client_sock] += req
         else:
             selector.unregister(client_sock)
-            print(f'Closing conn from {addr} normally')
+            print(f"Closing conn from {addr} normally")
             client_sock.close()
             data = bufs.pop(client_sock)
             pool.apply_async(append_data, (data,))
     except ConnectionError:
         selector.unregister(client_sock)
-        print(f'Closing conn from {addr} w/ exception')
+        print(f"Closing conn from {addr} w/ exception")
         client_sock.close()
 
 
@@ -69,11 +68,11 @@ def event_loop():
                 callback = key.data
                 callback(key.fileobj)
     except KeyboardInterrupt:
-        print('keyboard interrupt occurred')
+        print("keyboard interrupt occurred")
     finally:
         selector.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     server(HOST, PORT)
     event_loop()
