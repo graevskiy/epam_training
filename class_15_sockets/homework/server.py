@@ -43,9 +43,9 @@ def accept_conn(serv_sock):
 
 
 def recv_message(client_sock):
+    addr = client_sock.getpeername()
     try:
         req = client_sock.recv(1024)
-        addr = client_sock.getpeername()
         if req:
             bufs[client_sock] += req
         else:
@@ -53,7 +53,7 @@ def recv_message(client_sock):
             print(f'Closing conn from {addr} normally')
             client_sock.close()
             data = bufs.pop(client_sock)
-            pool.apply_async(append_data, (client_sock, data))
+            pool.apply_async(append_data, (data,))
     except ConnectionError:
         selector.unregister(client_sock)
         print(f'Closing conn from {addr} w/ exception')

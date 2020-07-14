@@ -5,7 +5,7 @@ import random
 HOST = 'localhost'
 PORT = 9999
 TIME_FORMAT = "%m/%d/%Y %H:%M:%S"
-SLEEP_TIME = 1
+SLEEP_TIME = 10
 
 
 class ConnException(Exception):
@@ -17,6 +17,7 @@ def client(host, port):
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((host, port))
+        print(f'Connected to {host}:{port}')
     except ConnectionError:
         print('Connection error occurred')
         return
@@ -26,10 +27,10 @@ def client(host, port):
     data = data.encode('utf-8')
     with sock:
         msg_len = len(data)
+        print('sending data:', data)
         while msg_len:
             num_sent = sock.send(data)
             msg_len -= num_sent
-            print(num_sent)
             if not num_sent:
                 raise ConnException("Connection failed.")
     print('Socket closed')
