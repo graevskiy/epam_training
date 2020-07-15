@@ -29,11 +29,11 @@ def client_send(host, port, data):
     time_ = time.strftime(TIME_FORMAT, time.localtime())
     data = f"{time_}: {data}".encode("utf-8")
     with sock:
-        msg_len = len(data)
+        msg_len = remains = len(data)
         print("sending data:", data)
-        while msg_len:
-            num_sent = sock.send(data)
-            msg_len -= num_sent
+        while remains:
+            num_sent = sock.send(data[msg_len - remains:])
+            remains -= num_sent
             if not num_sent:
                 raise ConnException("Connection failed.")
     print("Socket closed")

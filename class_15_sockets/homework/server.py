@@ -7,6 +7,7 @@ from multiprocessing.pool import ThreadPool
 
 HOST = "localhost"
 PORT = 9999
+RECV_BUF_SIZE = 10
 
 selector = selectors.DefaultSelector()
 pool = ThreadPool(4)
@@ -18,11 +19,9 @@ lock = Lock()
 def append_data(data):
     data = data.decode()
     pathlib.Path("outputs").mkdir(parents=True, exist_ok=True)
-    with lock:
+    with lock, open(f"outputs/output.txt", "a", encoding="utf-8") as f:
         print("writing to a file")
-        with open(f"outputs/output.txt", "a", encoding="utf-8") as f:
-            f.write(data)
-            f.write("\n")
+        f.write(f'{data}\n')
 
 
 def server(host, port):
@@ -44,7 +43,8 @@ def accept_conn(serv_sock):
 def recv_message(client_sock):
     addr = client_sock.getpeername()
     try:
-        req = client_sock.recv(1024)
+        req = client_sock.recv(RECV_BUF_SIZE)
+
         if req:
             bufs[client_sock] += req
         else:
