@@ -16,6 +16,14 @@
 /class_13_parallel_programming/homework/homework_v1_single_thread.py
 /class_14_CMD_logging/
 /class_15_sockets
+/class_17_big_data/
+/class_18_web/*
+!/class_18_web/homework/
+/class_18_web/homework/*
+!/class_18_web/homework/app.py
+!/class_18_web/homework/stocks.py
+!/class_18_web/homework/requirements.txt
 /epam_python_env
 /OOP Class
 /Untitled.ipynb
+/roadmap.txt
