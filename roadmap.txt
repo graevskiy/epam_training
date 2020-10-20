@@ -1,0 +1,142 @@
+Useful links:
+
+https://www.youtube.com/user/schafer5/playlists?pbjreload=10
+На мой взгляд, неплохой канал с уроками по Python  (и не только)
+
+https://py.checkio.org/ python practice online
+
+По докеру вводная информация с практикой довольно неплохо представлена в курсе на степике. Можно смотреть только второй раздел (с учетом введения), т.к. другие два в принципе не про докер (но тоже могут кому-то показаться полезными)
+https://stepik.org/1612
+
+code style from google http://google.github.io/styleguide/pyguide.html
+
+run jupyter notebook from docker (Linux)
+mkdir ~/jupyter_notebooks && chmod 777 ~/jupyter_notebooks
+docker pull jupyter/minimal-notebook && docker run --name jupyter_minimal_notebook --rm -p 8888:8888 -v ~/jupyter_notebooks:/home/jovyan/work/ jupyter/minimal-notebook
+
+slash in function parameters:
+https://stackoverflow.com/questions/24735311/python-what-does-the-slash-mean-in-help-output
+
+Deep Learning school физтех мфти
+https://www.youtube.com/channel/UCFTNoZYjkg-3LZTHrHfV1nQ
+
+алгоритмы Максим Бабенко
+https://www.youtube.com/playlist?list=PLJOzdkh8T5koEPv-R5W0ovmL_T2BjB1HX
+
+SQL Tutorial
+https://mode.com/sql-tutorial/introduction-to-sql/
+
+
+1. Base types
+/Overview and description of built-in simple and complex types, string formatting, conditional and loop operators/
+https://docs.python.org/3.7/library/stdtypes.html 
+
+2. Functions and documentation
+/Writing functions, visibility scopes, code style, documentation/
+https://pep8.ru/doc/pep8/
+
+3. Functions - Advanced
+None
+
+4. Functional programming
+/Overview of functional programming concepts and techniques in python/
+https://docs.python.org/3.7/howto/functional.html
+
+5. Classes and OOP
+https://habr.com/ru/post/145835/
+https://refactoring.guru/ru/design-patterns/python
+https://medium.com/@melevir/%D0%BA%D0%B0%D0%BA-%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%B0%D1%8E%D1%82-%D0%BA%D0%BB%D0%B0%D1%81%D1%81%D1%8B-%D0%B2-python-f8ba90fe2f8e
+
+Подробнее про дескрипторы:
+Руководство к дескрипторам == https://habr.com/ru/post/122082/
+Атрибуты и протокол дескриптора в Python == https://habr.com/ru/post/479824/
+
+6. Iterators, Generators
+https://shepetko.com/ru/blog/python-iterable-iterators-generators
+
+7. Modules and packages
+https://tproger.ru/translations/guide-into-python-imports/#11
+https://realpython.com/absolute-vs-relative-python-imports/#relative-imports
+https://python-scripts.com/virtualenv
+https://klen.github.io/create-python-packages.html
+https://smartiqa.ru/courses/python/lesson-5	Модули и пакеты в Python. Импорт. Виртуальная среда venv.
+https://realpython.com/python-modules-packages/	Python Modules and Packages – An Introduction
+
+8. Context managers and exceptions
+/Exception handling in Python.What are context managers, how to use context managers from standard library and write custom/
+https://docs.python.org/3/tutorial/errors.html
+https://docs.python.org/3/reference/compound_stmts.html#with
+https://docs.python.org/3/reference/datamodel.html#context-managers
+https://docs.python.org/3/library/contextlib.html
+https://youtu.be/_vxcRfjyfgk
+
+9. Numpy and pandas
+/Tools for data analysis and visualization: NumPy, Pandas, Matplotlib, Seaborn/
+https://numpy.org/devdocs/user/quickstart.html
+https://pandas.pydata.org/pandas-docs/stable/getting_started/10min.html
+Best practices with pandas [Data School]
+https://www.youtube.com/playlist?list=PL5-da3qGB5IBITZj_dYSFqnd_15JgqwA6
+
+10. Testing and coverage
+/Testing principles and good practices. Testing tools in python: asserts, doctest, unittest, pytest, coverage/
+https://realpython.com/python-testing
+https://realpython.com/python-mock-library/
+https://youtu.be/y78VXTI8PRQ
+
+https://habr.com/ru/post/426699/	Python testing with pytest. Прсто, Быстро, Эффективно и Масштабируемо. Перевод книги Okken Brian'а.
+
+11. Cython and profiling
+/Python code optimization. Code performance measurement/
+https://pymotw.com/3/timeit/index.html#module-timeit
+https://pymotw.com/3/profile/index.html#module-profile
+https://pynash.org/2013/03/06/timing-and-profiling/
+https://gawron.sdsu.edu/compling/course_core/python_intro/intro_lecture_files/fastpython.html
+https://dzone.com/articles/speeding-up-the-sieve-of-eratosthenes-with-numba
+https://youtu.be/-lMiAKKyLFI
+
+https://youtu.be/77B2-Pk1fls	Видео с тестированием разных способов ускорения кода Python. Побеждает по эффективности и простоте PyPy
+
+12. Parallel programming
+/Overview of parallel programming concepts and techniques in python/
+https://docs.python.org/3/library/multiprocessing.html
+
+13. CMD arguments and logging
+/Introduction to CMD arguments and logging/ 
+https://docs.python.org/3.3/library/argparse.html
+https://realpython.com/python-command-line-arguments/
+https://jenyay.net/Programming/Argparse
+https://habr.com/ru/company/ruvds/blog/440654/
+https://docs.python.org/3/library/logging.html
+https://python-scripts.com/logging-python
+https://tproger.ru/translations/python-logging/
+
+https://webdevblog.ru/logging-v-python/ propagate
+
+14. Sockets
+/Introduction to TCP/UDP, sockets/ 
+Sockets for beginners
+https://docs.python.org/3.7/howto/sockets.html
+
+15. Regexp and text analysis 
+/Introduction to regular expressions in python/
+https://docs.python.org/3.7/howto/regex.html
+
+https://regexone.com/lesson/introduction_abcs
+
+16.Web programming
+/Introduction to modern Web, HTTP and first Flask Application/
+Web architecture 101
+High load architecture
+WSGI servers
+
+17. BigData
+https://vk.com/doc123534285_437521202?hash=f5c0334bb647b6248b&dl=0a23d1bc59db5c4ae0 - англ., 4-е издание, доработанное hadoop
+
+
+
+
+
+
+
+
+
